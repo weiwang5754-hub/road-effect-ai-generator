@@ -1020,3 +1020,1025 @@ init();
 
     
 
+
+
+
+    
+    
+    市政横断面道路效果图AI生成器
+    
+市政横断面道路效果图AI生成器 :root { --primary: #6366f1; --primary-hover: #4f46e5; --bg-dark: #0f172a; --bg-card: #1e293b; --bg-input: #334155; --text-primary: #f1f5f9; --text-secondary: #94a3b8; --border: #475569; --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; } * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; } /* ===== Header ===== */ .header { background: linear-gradient(135deg, var(--bg-card) 0%, #1a2332 100%); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; } .header h1 { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; } .header-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; } /* ===== Main Layout ===== */ .main-container { display: grid; grid-template-columns: 220px 1fr 300px; gap: 16px; padding: 16px; height: calc(100vh - 60px); max-height: calc(100vh - 60px); } /* ===== Sidebar - History ===== */ .sidebar { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; } .sidebar-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; } .sidebar-title { font-size: 15px; font-weight: 600; } .btn-clear { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; } .btn-clear:hover { background: var(--danger); color: white; } .history-list { flex: 1; overflow-y: auto; padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; align-content: start; } .history-item { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; } .history-item:hover { border-color: var(--primary); transform: scale(1.03); } .history-item:hover .hist-delete { opacity: 1; } .history-item img { width: 100%; height: 100%; object-fit: cover; } .hist-delete { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; font-size: 12px; cursor: pointer; opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; } .history-empty { grid-column: span 2; text-align: center; color: var(--text-secondary); font-size: 13px; padding: 40px 10px; } /* ===== Center Area ===== */ .center-area { display: flex; flex-direction: column; gap: 12px; overflow-y: auto; } /* ===== Image Display / Comparison Area ===== */ .display-area { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); flex-shrink: 0; min-height: 420px; max-height: 55vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; } .display-placeholder { color: var(--text-secondary); font-size: 14px; text-align: center; padding: 30px; } .display-placeholder svg { width: 64px; height: 64px; margin-bottom: 12px; opacity: 0.4; } /* ===== Comparison Slider ===== */ .compare-container { width: 100%; height: 100%; position: relative; display: none; user-select: none; } .compare-container.active { display: block; } .compare-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; background: #111; } .compare-left { clip-path: inset(0 50% 0 0); z-index: 2; } .compare-right { z-index: 1; } .compare-label { position: absolute; top: 10px; padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; z-index: 5; } .label-original { left: 10px; background: rgba(34, 197, 94, 0.85); color: white; } .label-generated { right: 10px; background: rgba(99, 102, 241, 0.85); color: white; } .compare-slider { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: white; cursor: ew-resize; z-index: 10; transform: translateX(-50%); } .compare-slider::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; background: white; border-radius: 50%; box-shadow: 0 2px 10px rgba(0,0,0,0.3); } .compare-slider::after { content: '\u2194'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 18px; color: #333; z-index: 11; } /* ===== Single Image Display ===== */ .single-display { width: 100%; height: 100%; display: none; } .single-display.active { display: block; } .single-display img { width: 100%; height: 100%; object-fit: contain; background: #111; } /* ===== Prompt Area ===== */ .prompt-area { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); padding: 16px; flex-shrink: 0; } .prompt-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; } .prompt-textarea { width: 100%; min-height: 90px; max-height: 150px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); padding: 12px; font-size: 14px; line-height: 1.6; resize: vertical; outline: none; font-family: inherit; transition: border-color 0.2s; } .prompt-textarea:focus { border-color: var(--primary); } .prompt-textarea::placeholder { color: #64748b; } /* ===== Right Panel ===== */ .right-panel { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; gap: 0; } .panel-section { padding: 14px 16px; border-bottom: 1px solid var(--border); } .panel-section:last-child { border-bottom: none; } .section-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; } select, input[type="text"], input[type="password"] { width: 100%; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); padding: 9px 12px; font-size: 13px; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; transition: border-color 0.2s; } select:focus, input[type="text"]:focus, input[type="password"]:focus { border-color: var(--primary); } select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; } /* ===== Upload Area ===== */ .upload-area { border: 2px dashed var(--border); border-radius: 10px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; } .upload-area:hover { border-color: var(--primary); background: rgba(99, 102, 241, 0.05); } .upload-area.has-files { min-height: auto; padding: 10px; } .upload-icon { font-size: 28px; margin-bottom: 4px; } .upload-text { font-size: 12px; color: var(--text-secondary); } .upload-input { display: none; } .uploaded-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; } .uploaded-thumb { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; } .uploaded-thumb:hover { border-color: var(--primary); } .uploaded-thumb:hover .thumb-delete, .uploaded-thumb:hover .thumb-edit { opacity: 1; } .uploaded-thumb img { width: 100%; height: 100%; object-fit: cover; } .thumb-delete, .thumb-edit { position: absolute; width: 20px; height: 20px; border: none; border-radius: 50%; font-size: 11px; cursor: pointer; opacity: 0; transition: opacity 0.2s; display: flex; align-items: center; justify-content: center; color: white; } .thumb-delete { top: 3px; right: 3px; background: rgba(239, 68, 68, 0.9); } .thumb-edit { top: 3px; left: 3px; background: rgba(99, 102, 241, 0.9); } .upload-add-more { grid-column: span 3; padding: 6px; font-size: 12px; color: var(--primary); cursor: pointer; text-align: center; } /* ===== Generate Button ===== */ .generate-section { padding: 16px; } .btn-generate { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--primary), #8b5cf6); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.25s; display: flex; align-items: center; justify-content: center; gap: 8px; } .btn-generate:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4); } .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; } .btn-generate .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } } /* ===== Log Area ===== */ .log-area { padding: 14px 16px; flex: 1; min-height: 120px; display: flex; flex-direction: column; } .log-content { flex: 1; background: var(--bg-input); border-radius: 8px; padding: 10px; font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; line-height: 1.7; color: var(--text-secondary); overflow-y: auto; white-space: pre-wrap; word-break: break-all; } .log-info { color: #60a5fa; } .log-success { color: var(--success); } .log-error { color: var(--danger); } .log-warn { color: var(--warning); } /* ===== Settings Toggle ===== */ .settings-toggle { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; color: var(--text-secondary); transition: color 0.2s; } .settings-toggle:hover { color: var(--text-primary); } .settings-panel { display: none; padding: 14px 16px; border-bottom: 1px solid var(--border); } .settings-panel.open { display: block; } .setting-row { margin-bottom: 10px; } .setting-row label { display: block; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; } /* ===== CORS Notice Banner ===== */ .cors-banner { background: linear-gradient(135deg, #7c2d12, #9a3412); border: 1px solid #f97316; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.5; } .cors-banner.hidden { display: none; } .cors-banner-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; } .cors-banner-text { flex: 1; } .cors-banner-title { font-weight: 700; color: #fdba74; } .cors-banner-desc { color: #fed7aa; margin-top: 4px; font-size: 12px; } .cors-banner-close { background: rgba(255,255,255,0.15); border: none; color: #fed7aa; width: 24px; height: 24px; border-radius: 6px; cursor: pointer; font-size: 14px; flex-shrink: 0; transition: background 0.2s; } .cors-banner-close:hover { background: rgba(255,255,255,0.25); } /* ===== Lightbox ===== */ .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; align-items: center; justify-content: center; cursor: zoom-out; } .lightbox.active { display: flex; } .lightbox img { max-width: 95vw; max-height: 95vh; object-fit: contain; border-radius: 8px; } /* ===== Toast ===== */ .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); padding: 10px 24px; border-radius: 10px; font-size: 13px; z-index: 2000; opacity: 0; transition: all 0.3s ease; box-shadow: 0 8px 30px rgba(0,0,0,0.4); } .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); } /* ===== Scrollbar ===== */ ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; } ::-webkit-scrollbar-thumb:hover { background: #555; } /* ===== Responsive ===== */ @media (max-width: 1100px) { .main-container { grid-template-columns: 180px 1fr 260px; gap: 10px; padding: 10px; } } @media (max-width: 900px) { .main-container { grid-template-columns: 1fr; height: auto; max-height: none; } .sidebar { max-height: 200px; } .display-area { max-height: 45vh; } .right-panel { max-height: none; } }
+    
+
+
+    
+    
+        
+            🛤️ 市政横断面道路效果图 AI 生成器
+            集成 Tabbit AI 豆包大模型 · 上传横断面草图 → 生成专业效果图
+        
+    
+
+    
+    
+
+        
+        
+            
+                📋 历史记录
+                清空
+            
+            
+                暂无历史记录生成图片后自动保存
+            
+        
+
+        
+        
+
+            
+            
+                ⚠️
+                
+                    检测到网络请求被浏览器阻止（CORS跨域限制）
+                    从本地文件(file://)打开时，浏览器会阻止对外部API的请求。解决方案：① 在「⚙️高级设置」中配置CORS代理地址（推荐）② 或使用本地服务器运行：python -m http.server 8080③ 或将页面部署到任意Web服务器上访问
+                
+                ✕
+            
+
+            
+            
+                
+                    
+                    上传市政横断面草图并点击生成将在此处显示原图与生成效果对比
+                
+
+                
+                
+                    
+                    
+                    原图
+                    生成
+                    
+                
+
+                
+                
+                    
+                
+            
+
+            
+            
+                📝 提示词（描述期望的道路效果图风格）
+                
+            
+        
+
+        
+        
+
+            
+            
+                🤖 模型选择
+                
+                    🌟 Tabbit AI 豆包 Seedream 5.0（推荐）
+                    通义万相 Wanx v1（免费）
+                    智谱 GLM-4V-Flash（免费）
+                    讯飞星火绘图（免费）
+                    商汤 SenseChat 5T（免费）
+                    自定义API地址
+                
+            
+
+            
+            
+                📐 分辨率
+                
+                    1024 × 1024 (默认)
+                    1536 × 1536 (2K)
+                    2048 × 2048 (4K)
+                    1024 × 768 (4:3)
+                    768 × 1024 (3:4)
+                    1344 × 768 (16:9)
+                    768 × 1344 (9:16)
+                
+            
+
+            
+            
+                🖼️ 图片比例
+                
+                    自动
+                    1:1 正方形
+                    4:3 横版
+                    3:4 竖版
+                    16:9 宽屏
+                    9:16 手机竖屏
+                
+            
+
+            
+            
+                📁 上传横断面草图
+                
+                    📤
+                    点击或拖拽上传图片支持 JPG/PNG/WebP
+                    
+                    
+                
+            
+
+            
+            
+                🎨 开始生成
+            
+
+            
+            
+                📜 系统日志
+                
+            
+
+            
+            ⚙️ 高级设置
+            
+                
+                    CORS代理地址（解决跨域限制的关键设置）
+                    
+                
+                
+                    API 接口地址（选填，自定义模式必填）
+                    
+                
+                
+                    API 令牌（选填，部分平台需要）
+                    
+                
+                
+                    批量出图数量
+                    
+                        1 张
+                        2 张
+                        4 张
+                    
+                
+                
+                    💡 Tabbit AI 使用说明：
+                    • 选择「Tabbit AI」模型后，需启动本地代理服务器
+                    • 启动命令：python road-effect-server.py
+                    • 然后通过 http://localhost:8899 访问本页面
+                    • 无需配置 API Key 或 CORS 代理
+                    💡 CORS代理说明（其他模型）：
+                    • 推荐使用 SiliconFlow（自带CORS）：api.siliconflow.cn
+                    • 公共代理示例：https://api.allorigins.win/raw?url= （不稳定）
+                    • 最佳方案：用 python -m http.server 8080 启动本地服务器后通过 localhost:8080 访问
+                
+            
+        
+    
+
+    
+    
+        
+    
+
+    
+    
+
+    
+
+// ============================================================
+// Global State
+// ============================================================
+const state = {
+    uploadedImages: [],
+    generatedImage: null,
+    isGenerating: false,
+    historyRecords: [],
+    corsDetected: false
+};
+
+// ============================================================
+// ========== CORE FIX: CORS-Aware Fetch Wrapper ==========
+// ============================================================
+
+/**
+ * Public CORS proxies list (free, no key required)
+ */
+const PUBLIC_CORS_PROXIES = [
+    '', // direct (no proxy)
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy?quest='
+];
+
+/**
+ * corsAwareFetch - The main fetch replacement that handles CORS automatically.
+ */
+async function corsAwareFetch(url, options = {}) {
+    const method = (options.method || 'GET').toUpperCase();
+    const isGET = method === 'GET';
+    const proxyUrl = document.getElementById('corsProxyUrl')?.value?.trim() || '';
+
+    // ---- Attempt 1: Direct fetch ----
+    try {
+        log(`[请求] 直接连接: ${url.substring(0, 80)}...`, 'info');
+        const resp = await fetch(url, options);
+        if (resp.ok || resp.status !== 0) return resp;
+        throw new Error('direct_fetch_status_0');
+    } catch (err) {
+        const isCorsError = err.message.includes('Failed to fetch') ||
+            err.message.includes('NetworkError') ||
+            err.message.includes('Network request failed') ||
+            err.name === 'TypeError' ||
+            err.message.includes('direct_fetch_status_0') ||
+            err.message.includes('Load failed');
+        if (!isCorsError) throw err;
+        log(`[警告] 直连失败(CORS限制): ${err.message}`, 'warn');
+        showCorsBanner();
+        state.corsDetected = true;
+
+        // ---- Attempt 2: User-configured proxy ----
+        if (proxyUrl) {
+            try {
+                const proxiedUrl = proxyUrl + encodeURIComponent(url);
+                log(`[请求] 尝试用户代理: ${proxiedUrl.substring(0, 80)}...`, 'info');
+                let proxyResp;
+                if (isGET) {
+                    proxyResp = await fetch(proxiedUrl, options);
+                } else {
+                    proxyResp = await fetch(proxiedUrl, { ...options, mode: 'cors' });
+                }
+                if (proxyResp.ok || proxyResp.status !== 0) {
+                    log('[成功] 用户代理连接成功!', 'success');
+                    return proxyResp;
+                }
+            } catch (proxyErr) {
+                log(`[警告] 用户代理也失败: ${proxyErr.message}`, 'warn');
+            }
+        }
+
+        // ---- Attempt 3: Public free proxies ----
+        for (let i = 1; i = 200 && proxyResp2.status  {
+        const request = indexedDB.open('RoadEffectDB', 1);
+        request.onupgradeneeded = (e) => {
+            const database = e.target.result;
+            if (!database.objectStoreNames.contains('records')) {
+                database.createObjectStore('records', { keyPath: 'id', autoIncrement: true });
+            }
+        };
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            resolve(db);
+        };
+        request.onerror = (e) => reject(e.target.error);
+    });
+}
+
+async function saveRecord(record) {
+    if (!db) return;
+    db.transaction(['records'], 'readwrite').objectStore('records').add(record);
+}
+
+async function getAllRecords() {
+    if (!db) return [];
+    return new Promise((resolve) => {
+        const req = db.transaction(['records'], 'readonly').objectStore('records').getAll();
+        req.onsuccess = () => resolve(req.result.reverse());
+        req.onerror = () => resolve([]);
+    });
+}
+
+async function deleteRecord(id) {
+    if (!db) return;
+    db.transaction(['records'], 'readwrite').objectStore('records').delete(id);
+}
+
+async function clearRecords() {
+    if (!db) return;
+    db.transaction(['records'], 'readwrite').objectStore('records').clear();
+}
+
+// ============================================================
+// Logging
+// ============================================================
+function log(msg, type = 'info') {
+    const el = document.getElementById('logContent');
+    const time = new Date().toLocaleTimeString();
+    const prefix = { info: '[信息]', success: '[成功]', error: '[错误]', warn: '[警告]' }[type];
+    el.textContent += `${time} ${prefix} ${msg}\n`;
+    el.scrollTop = el.scrollHeight;
+}
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function showCorsBanner() {
+    document.getElementById('corsBanner').classList.remove('hidden');
+}
+
+// ============================================================
+// File Upload
+// ============================================================
+const uploadArea = document.getElementById('uploadArea');
+
+uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'var(--primary)';
+    uploadArea.style.background = 'rgba(99,102,241,0.08)';
+});
+
+uploadArea.addEventListener('dragleave', () => {
+    uploadArea.style.borderColor = '';
+    uploadArea.style.background = '';
+});
+
+uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = '';
+    uploadArea.style.background = '';
+    handleFiles(e.dataTransfer.files);
+});
+
+function handleFiles(files) {
+    const validFiles = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (validFiles.length === 0) {
+        showToast('请选择有效的图片文件');
+        return;
+    }
+    validFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            state.uploadedImages.push({ file: file, dataUrl: e.target.result, name: file.name });
+            renderUploadGrid();
+            log(`已上传图片: ${file.name}`, 'success');
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function renderUploadGrid() {
+    const grid = document.getElementById('uploadedGrid');
+    const area = document.getElementById('uploadArea');
+    if (state.uploadedImages.length === 0) {
+        grid.style.display = 'none';
+        area.classList.remove('has-files');
+        area.innerHTML = '📤点击或拖拽上传图片支持 JPG/PNG/WebP';
+        return;
+    }
+    area.classList.add('has-files');
+    grid.style.display = 'grid';
+    let html = '';
+    state.uploadedImages.forEach((img, idx) => {
+        html += `✏️✕`;
+    });
+    html += '+ 继续添加';
+    html += '';
+    grid.innerHTML = html;
+    area.innerHTML = '';
+    area.appendChild(grid);
+    if (state.uploadedImages.length > 0 && !state.generatedImage) showSingleImage(state.uploadedImages[0].dataUrl);
+}
+
+function removeUpload(idx) {
+    state.uploadedImages.splice(idx, 1);
+    renderUploadGrid();
+    log('已删除一张上传图片', 'warn');
+}
+
+function viewImage(dataUrl) {
+    document.getElementById('lightboxImg').src = dataUrl;
+    document.getElementById('lightbox').classList.add('active');
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+}
+
+function editImage(idx) {
+    showToast('图片编辑功能：可在外部工具编辑后重新上传');
+}
+
+// ============================================================
+// Display Modes
+// ============================================================
+function showSingleImage(src) {
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('singleDisplay').classList.add('active');
+    document.getElementById('compareContainer').classList.remove('active');
+    document.getElementById('singleImg').src = src;
+}
+
+function showCompare(original, generated) {
+    document.getElementById('placeholder').style.display = 'none';
+    document.getElementById('singleDisplay').classList.remove('active');
+    document.getElementById('compareContainer').classList.add('active');
+    document.getElementById('compareLeft').src = original;
+    document.getElementById('compareRight').src = generated;
+    resetCompareSlider();
+}
+
+// ============================================================
+// Compare Slider (clip-path based)
+// ============================================================
+function initCompareSlider() {
+    const container = document.getElementById('compareContainer');
+    const slider = document.getElementById('compareSlider');
+    const leftImg = document.getElementById('compareLeft');
+    let isDragging = false;
+
+    function updateClip(x) {
+        const rect = container.getBoundingClientRect();
+        let pct = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
+        slider.style.left = (pct * 100) + '%';
+        leftImg.style.clipPath = `inset(0 ${100 - pct * 100}% 0 0)`;
+    }
+
+    window.resetCompareSlider = function() {
+        slider.style.left = '50%';
+        leftImg.style.clipPath = 'inset(0 50% 0 0)';
+    };
+
+    slider.addEventListener('mousedown', (e) => { isDragging = true; e.preventDefault(); });
+    document.addEventListener('mousemove', (e) => { if (!isDragging) return; updateClip(e.clientX); });
+    document.addEventListener('mouseup', () => { isDragging = false; });
+
+    slider.addEventListener('touchstart', (e) => { isDragging = true; e.preventDefault(); }, { passive: false });
+    document.addEventListener('touchmove', (e) => { if (!isDragging) return; updateClip(e.touches[0].clientX); }, { passive: false });
+    document.addEventListener('touchend', () => { isDragging = false; });
+}
+
+// ============================================================
+// Settings
+// ============================================================
+function toggleSettings() {
+    document.getElementById('settingsPanel').classList.toggle('open');
+}
+
+// ============================================================
+// History
+// ============================================================
+async function loadHistory() {
+    state.historyRecords = await getAllRecords();
+    renderHistory();
+}
+
+function renderHistory() {
+    const list = document.getElementById('historyList');
+    if (state.historyRecords.length === 0) {
+        list.innerHTML = '暂无历史记录生成图片后自动保存';
+        return;
+    }
+    let html = '';
+    state.historyRecords.forEach(rec => {
+        const thumb = rec.generatedImage ? `` : '';
+        html += `${thumb}✕`;
+    });
+    list.innerHTML = html;
+}
+
+async function deleteHistoryItem(id) {
+    await deleteRecord(id);
+    await loadHistory();
+    showToast('已删除该条历史记录');
+}
+
+async function clearAllHistory() {
+    if (!confirm('确定要清空所有历史记录吗？')) return;
+    await clearRecords();
+    await loadHistory();
+    showToast('历史记录已清空');
+}
+
+async function loadFromHistory(id) {
+    const rec = state.historyRecords.find(r => r.id == id);
+    if (!rec) return;
+    document.getElementById('modelSelect').value = rec.model || 'tabbit-ai';
+    document.getElementById('resolutionSelect').value = rec.resolution || '1024x1024';
+    document.getElementById('ratioSelect').value = rec.ratio || 'auto';
+    document.getElementById('promptInput').value = rec.prompt || '';
+    state.generatedImage = rec.generatedImage;
+    if (rec.originalImage) showCompare(rec.originalImage, rec.generatedImage);
+    else showSingleImage(rec.generatedImage);
+    log(`已加载历史记录 #${id}`, 'info');
+    showToast('已恢复历史参数和图片');
+}
+
+async function addToHistory(originalImage, generatedImage, params) {
+    await saveRecord({
+        timestamp: Date.now(),
+        originalImage: originalImage || null,
+        generatedImage: generatedImage,
+        model: params.model,
+        resolution: params.resolution,
+        ratio: params.ratio,
+        prompt: params.prompt,
+        imageCount: params.imageCount
+    });
+    await loadHistory();
+}
+
+// ============================================================
+// Helpers
+// ============================================================
+function dataUrlToBase64(dataUrl) {
+    return dataUrl.split(',')[1];
+}
+
+function getResolutionDims(resStr) {
+    const [w, h] = resStr.split('x').map(Number);
+    return { width: w, height: h };
+}
+
+// ============================================================
+// Build road-effect-specific prompt enhancer
+// ============================================================
+function buildRoadEffectPrompt(userPrompt) {
+    if (!userPrompt) {
+        return `将市政横断面草图转换为专业的彩色道路工程效果图。要求：
+1. 清晰展示道路横断面结构：车行道（沥青路面）、非机动车道、人行道、路缘石、绿化隔离带
+2. 标注各部分宽度尺寸
+3. 包含路面标线、行道树、路灯杆、交通标志等附属设施
+4. 采用工程制图风格，俯视或正交视角
+5. 色彩鲜明清晰，专业CAD渲染风格
+6. 高分辨率，细节丰富`;
+    }
+    return `市政道路工程效果图，专业CAD渲染风格，清晰的横断面结构展示，包含车行道、人行道、绿化带、路灯等元素，高清晰度，色彩鲜明。用户具体要求：${userPrompt}`;
+}
+
+// ============================================================
+// Fetch image URL as base64 (uses corsAwareFetch)
+// ============================================================
+async function fetchImageAsBase64(url) {
+    log('正在下载生成的图片...', 'info');
+    const resp = await corsAwareFetch(url);
+    const blob = await resp.blob();
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+}
+
+// ============================================================
+// ========== IMAGE GENERATION - All using corsAwareFetch ==========
+// ============================================================
+async function startGenerate() {
+    const btn = document.getElementById('generateBtn');
+    const model = document.getElementById('modelSelect').value;
+    const resolution = document.getElementById('resolutionSelect').value;
+    const ratio = document.getElementById('ratioSelect').value;
+    const prompt = document.getElementById('promptInput').value.trim();
+    const batchCount = parseInt(document.getElementById('batchCount').value);
+    const customApiUrl = document.getElementById('apiUrl').value.trim();
+    const apiToken = document.getElementById('apiToken').value.trim();
+
+    if (!prompt && state.uploadedImages.length === 0) {
+        showToast('请输入提示词或上传至少一张图片');
+        return;
+    }
+    if (model === 'custom' && !customApiUrl) {
+        showToast('自定义模式下请填写API接口地址');
+        return;
+    }
+
+    state.isGenerating = true;
+    btn.disabled = true;
+    btn.innerHTML = ' 生成中...';
+    log(`开始生成 | 模型: ${model} | 分辨率: ${resolution} | 比例: ${ratio}`, 'info');
+
+    try {
+        let resultBase64 = '';
+
+        // Route to appropriate model
+        if (model === 'tabbit-ai') {
+            resultBase64 = await callTabbitAIAPI(prompt, resolution, ratio, batchCount);
+        } else if (model === 'wanx') {
+            resultBase64 = await callWanxAPI(prompt, resolution, ratio, batchCount);
+        } else if (model === 'glm-flash') {
+            resultBase64 = await callGLMFlashAPI(prompt, resolution, ratio, batchCount);
+        } else if (model === 'spark') {
+            resultBase64 = await callSparkAPI(prompt, resolution, ratio, batchCount);
+        } else if (model === 'sensechat') {
+            resultBase64 = await callSenseChatAPI(prompt, resolution, ratio, batchCount);
+        } else if (model === 'custom') {
+            resultBase64 = await callCustomAPI(customApiUrl, apiToken, prompt, resolution, ratio);
+        } else {
+            const dims = getResolutionDims(resolution);
+            resultBase64 = await callSiliconFlowFree(buildRoadEffectPrompt(prompt), dims);
+        }
+
+        // Convert base64 to data URL
+        const generatedDataUrl = 'data:image/png;base64,' + resultBase64;
+        const originalDataUrl = state.uploadedImages.length > 0 ? state.uploadedImages[0].dataUrl : null;
+
+        if (originalDataUrl) showCompare(originalDataUrl, generatedDataUrl);
+        else showSingleImage(generatedDataUrl);
+
+        await addToHistory(originalDataUrl, generatedDataUrl, { model, resolution, ratio, prompt, imageCount: batchCount });
+        log('✅ 图片生成成功！', 'success');
+        showToast('生成完成！可拖动滑块对比原图与效果图');
+
+    } catch (err) {
+        if (err.isCorsError) {
+            log(`❌ 跨域错误: 请配置CORS代理或使用本地服务器运行`, 'error');
+        } else {
+            log(`❌ 生成失败: ${err.message}`, 'error');
+        }
+        showToast('生成失败: ' + (err.isCorsError ? '请检查CORS代理设置' : err.message));
+    } finally {
+        state.isGenerating = false;
+        btn.disabled = false;
+        btn.innerHTML = '🎨 开始生成';
+    }
+}
+
+// ----------------------------------------------------------
+// Tabbit AI 豆包 Seedream 5.0 - Local Proxy Bridge
+// ----------------------------------------------------------
+async function callTabbitAIAPI(prompt, resolution, ratio, count) {
+    log('[Tabbit] 调用豆包 Seedream 5.0 模型...', 'info');
+    const dims = getResolutionDims(resolution);
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    let referenceImages = [];
+    if (state.uploadedImages.length > 0) {
+        for (const img of state.uploadedImages.slice(0, 3)) {
+            referenceImages.push({ data_url: img.dataUrl, name: img.name, mime_type: img.file.type || 'image/jpeg' });
+        }
+    }
+
+    const requestBody = {
+        task_description: enhancedPrompt,
+        resolution: resolution,
+        dimensions: dims,
+        ratio: ratio,
+        reference_images: referenceImages,
+        model: "Doubao Seedream 5.0"
+    };
+
+    const proxyBaseUrl = window.location.protocol + '//' + window.location.host;
+
+    try {
+        log('[Tabbit] 发送生成请求到本地代理服务器...', 'info');
+        const resp = await fetch(proxyBaseUrl + '/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!resp.ok) {
+            const errText = await resp.text().catch(() => '');
+            throw new Error(`本地代理错误 (${resp.status}): ${errText.substring(0, 500)}`);
+        }
+
+        const data = await resp.json();
+        if (data.success && data.image_base64) {
+            log('✅ Tabbit AI 图片生成成功! 耗时: ' + (data.elapsed_seconds || '?') + 's', 'success');
+            return data.image_base64;
+        } else {
+            throw new Error(data.error || '未知错误: ' + JSON.stringify(data).substring(0, 300));
+        }
+    } catch (err) {
+        if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+            throw new Error(
+                '无法连接到本地代理服务器。\n' +
+                '请确保已启动代理服务器：python road-effect-server.py\n' +
+                '然后通过 http://localhost:8899 访问本页面\n' +
+                '原始错误: ' + err.message
+            );
+        }
+        throw err;
+    }
+}
+
+// ----------------------------------------------------------
+// 通义万相 Wanx (阿里云)
+// ----------------------------------------------------------
+async function callWanxAPI(prompt, resolution, ratio, count) {
+    log('调用通义万相模型...', 'info');
+    const dims = getResolutionDims(resolution);
+    const apiKey = document.getElementById('apiToken').value.trim();
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    let imageParts = [];
+    if (state.uploadedImages.length > 0) {
+        for (const img of state.uploadedImages.slice(0, 3)) {
+            imageParts.push({ inlineData: { mimeType: img.file.type || 'image/jpeg', data: dataUrlToBase64(img.dataUrl) } });
+        }
+    }
+
+    const requestBody = {
+        model: "wanx.v1",
+        input: {
+            prompt: enhancedPrompt,
+            n: count,
+            size: `${dims.width}*${dims.height}`,
+            ...(imageParts.length > 0 ? { ref_image: imageParts } : {})
+        },
+        parameters: { response_format: "b64_json", style: "auto", seed: Math.floor(Math.random() * 1000000) }
+    };
+
+    const endpoints = [
+        { url: 'https://dashscope.aliyuncs.com/compatible-mode/v1/images/generations', authKey: apiKey },
+        { url: 'https://api.siliconflow.cn/v1/images/generations', authKey: apiKey },
+        { url: 'https://open.bigmodel.cn/api/pas/v4/images/generations', authKey: apiKey }
+    ];
+
+    let lastError = null;
+    for (const ep of endpoints) {
+        try {
+            const headers = { 'Content-Type': 'application/json' };
+            if (ep.authKey) headers['Authorization'] = `Bearer ${ep.authKey}`;
+            log(`[Wanx] 尝试端点: ${ep.url.split('/')[2]}...`, 'info');
+            const resp = await corsAwareFetch(ep.url, { method: 'POST', headers, body: JSON.stringify(requestBody) });
+            if (!resp.ok) {
+                const errText = await resp.text().catch(() => '');
+                log(`${ep.url.split('/')[2]} 返回 ${resp.status}: ${errText.substring(0, 200)}`, 'warn');
+                lastError = new Error(`API返回${resp.status}`);
+                continue;
+            }
+            const data = await resp.json();
+            if (data.data?.[0]?.b64_json) return data.data[0].b64_json;
+            if (data.data?.[0]?.url) return await fetchImageAsBase64(data.data[0].url);
+            if (data.output?.results?.[0]?.b64_json) return data.output.results[0].b64_json;
+            if (data.images?.[0]?.b64_json) return data.images[0].b64_json;
+            if (data.images?.[0]?.url) return await fetchImageAsBase64(data.images[0].url);
+            throw new Error('响应格式异常: ' + JSON.stringify(data).substring(0, 300));
+        } catch (e) {
+            lastError = e;
+            if (!e.isCorsError) log(`[Wanx] ${ep.url.split('/')[2]} 失败: ${e.message}`, 'warn');
+            else throw e;
+        }
+    }
+    throw lastError || new Error('通义万相所有端点均不可用');
+}
+
+// ----------------------------------------------------------
+// 智谱 GLM-4V-Flash
+// ----------------------------------------------------------
+async function callGLMFlashAPI(prompt, resolution, ratio, count) {
+    log('调用智谱 GLM-4V-Flash 模型...', 'info');
+    const dims = getResolutionDims(resolution);
+    const apiKey = document.getElementById('apiToken').value.trim();
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    let imageContent = [];
+    if (state.uploadedImages.length > 0) {
+        for (const img of state.uploadedImages.slice(0, 3)) {
+            imageContent.push({ type: 'image_url', image_url: { url: img.dataUrl } });
+        }
+    }
+
+    const body = {
+        model: 'glm-4v-flash',
+        messages: [{
+            role: 'user',
+            content: [
+                ...imageContent,
+                { type: 'text', text: `请根据以上${imageContent.length > 0 ? '参考图片和' : ''}以下要求生成一张市政道路效果图：\n${enhancedPrompt}\n\n要求：输出为base64编码的PNG图片。` }
+            ]
+        }],
+        stream: false
+    };
+
+    const endpoints = [
+        'https://open.bigmodel.cn/api/pas/v4/chat/completions',
+        'https://api.siliconflow.cn/v1/chat/completions'
+    ];
+
+    for (const endpoint of endpoints) {
+        try {
+            const headers = { 'Content-Type': 'application/json' };
+            if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+            log(`[GLM] 尝试端点: ${endpoint.split('/')[2]}...`, 'info');
+            const resp = await corsAwareFetch(endpoint, { method: 'POST', headers, body: JSON.stringify(body) });
+            if (!resp.ok) { log(`${endpoint.split('/')[2]} 返回 ${resp.status}`, 'warn'); continue; }
+            const data = await resp.json();
+            const textContent = data.choices?.[0]?.message?.content || '';
+            const b64Match = textContent.match(/data:image\/[^;]+;base64,([A-Za-z0-9+/=]+)/);
+            if (b64Match) return b64Match[1];
+            const urlMatch = textContent.match(/https?:\/\/[^\s"']+\.(png|jpg|jpeg)/i);
+            if (urlMatch) return await fetchImageAsBase64(urlMatch[0]);
+            throw new Error('未从GLM响应中提取到图片数据');
+        } catch (e) {
+            if (e.isCorsError) throw e;
+            log(`[GLM] ${endpoint.split('/')[2]} 失败: ${e.message}`, 'warn');
+        }
+    }
+    throw new Error('智谱GLM模型调用失败');
+}
+
+// ----------------------------------------------------------
+// 讯飞星火 Spark Image
+// ----------------------------------------------------------
+async function callSparkAPI(prompt, resolution, ratio, count) {
+    log('调用讯飞星火绘图模型...', 'info');
+    const dims = getResolutionDims(resolution);
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    try {
+        log('[Spark] 尝试 SiliconFlow 通道...', 'info');
+        const resp = await corsAwareFetch('https://api.siliconflow.cn/v1/images/generations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${document.getElementById('apiToken').value || ''}`
+            },
+            body: JSON.stringify({
+                model: 'stable-diffusion-xl-base-1.0',
+                prompt: enhancedPrompt,
+                image_size: `${dims.width}:${dims.height}`,
+                num_inference_steps: 30
+            })
+        });
+        const data = await resp.json();
+        if (data.images?.[0]) return data.images[0].b64_json || await fetchImageAsBase64(data.images[0].url);
+        throw new Error(JSON.stringify(data).substring(0, 300));
+    } catch (e) {
+        if (e.isCorsError) throw e;
+        log(`[Spark] 主通道失败: ${e.message}, 尝试备用...`, 'warn');
+        return await callSiliconFlowFree(enhancedPrompt, dims);
+    }
+}
+
+// ----------------------------------------------------------
+// 商汤 SenseChat 5T
+// ----------------------------------------------------------
+async function callSenseChatAPI(prompt, resolution, ratio, count) {
+    log('调用商汤 SenseChat 模型...', 'info');
+    const dims = getResolutionDims(resolution);
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    try {
+        const resp = await corsAwareFetch('https://api.siliconflow.cn/v1/images/generations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${document.getElementById('apiToken').value || ''}`
+            },
+            body: JSON.stringify({
+                model: 'black-forest-labs/FLUX.1-schnell',
+                prompt: enhancedPrompt,
+                image_size: `${dims.width}:${dims.height}`,
+                num_inference_steps: 20
+            })
+        });
+        const data = await resp.json();
+        if (data.images?.[0]) return data.images[0].b64_json || await fetchImageAsBase64(data.images[0].url);
+        throw new Error(JSON.stringify(data).substring(0, 300));
+    } catch (e) {
+        if (e.isCorsError) throw e;
+        log(`[SenseChat] 失败: ${e.message}, 尝试备用...`, 'warn');
+        return await callSiliconFlowFree(enhancedPrompt, dims);
+    }
+}
+
+// ----------------------------------------------------------
+// Custom API
+// ----------------------------------------------------------
+async function callCustomAPI(url, token, prompt, resolution, ratio) {
+    log('调用自定义API...', 'info');
+    if (!url) throw new Error('未填写API接口地址');
+    const dims = getResolutionDims(resolution);
+    const enhancedPrompt = buildRoadEffectPrompt(prompt);
+
+    let imageParts = [];
+    if (state.uploadedImages.length > 0) {
+        for (const img of state.uploadedImages.slice(0, 3)) {
+            imageParts.push({ inlineData: { mimeType: img.file.type || 'image/jpeg', data: dataUrlToBase64(img.dataUrl) } });
+        }
+    }
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    log(`[Custom] 目标: ${url.substring(0, 80)}...`, 'info');
+    const resp = await corsAwareFetch(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+            prompt: enhancedPrompt,
+            size: `${dims.width}*${dims.height}`,
+            n: 1,
+            ref_image: imageParts.length > 0 ? imageParts : undefined,
+            response_format: 'b64_json'
+        })
+    });
+
+    if (!resp.ok) {
+        const errText = await resp.text().catch(() => '无法读取错误信息');
+        throw new Error(`自定义API错误 (${resp.status}): ${errText.substring(0, 500)}`);
+    }
+
+    const data = await resp.json();
+    return data.data?.[0]?.b64_json || data.images?.[0]?.b64_json || data.output?.results?.[0]?.b64_json ||
+        data.output?.results?.[0]?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data ||
+        (() => { throw new Error('自定义API返回格式无法识别: ' + JSON.stringify(data).substring(0, 500)); })();
+}
+
+// ----------------------------------------------------------
+// SiliconFlow Free Fallback
+// ----------------------------------------------------------
+async function callSiliconFlowFree(prompt, dims) {
+    log('使用 SiliconFlow 免费备用通道...', 'info');
+    const models = [
+        'black-forest-labs/FLUX.1-schnell',
+        'stabilityai/stable-diffusion-3-5-large',
+        'stabilityai/stable-diffusion-xl-base-1.0'
+    ];
+
+    for (const model of models) {
+        try {
+            log(`[SiliconFlow] 尝试模型: ${model}...`, 'info');
+            const resp = await corsAwareFetch('https://api.siliconflow.cn/v1/images/generations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${document.getElementById('apiToken').value || ''}`
+                },
+                body: JSON.stringify({
+                    model,
+                    prompt,
+                    image_size: `${dims.width}:${dims.height}`,
+                    num_inference_steps: 20,
+                    guidance_scale: 7.5
+                })
+            });
+            if (!resp.ok) continue;
+            const data = await resp.json();
+            if (data.images?.[0]) {
+                log(`✅ 使用模型 ${model} 生成成功!`, 'success');
+                return data.images[0].b64_json || await fetchImageAsBase64(data.images[0].url);
+            }
+        } catch (e) {
+            if (e.isCorsError) throw e;
+            log(`${model} 失败: ${e.message}`, 'warn');
+        }
+    }
+    throw new Error('所有免费模型通道均不可用。请在⚙️高级设置中：\n1. 填写CORS代理地址\n2. 或填写有效的API令牌\n3. 或使用本地服务器运行本页面');
+}
+
+// ============================================================
+// Auto-download / Save feature
+// ============================================================
+function downloadImage(dataUrl, filename) {
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = filename;
+    link.click();
+}
+
+function autoSaveOutput() {
+    if (!state.generatedImage) return;
+    const firstName = state.uploadedImages.length > 0 ? state.uploadedImages[0].name.replace(/\.[^.]+$/, '') : 'road_effect';
+    downloadImage(state.generatedImage, `${firstName}_效果图.png`);
+    const prompt = document.getElementById('promptInput').value;
+    const blob = new Blob([prompt], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${firstName}_提示词.txt`;
+    link.click();
+    URL.revokeObjectURL(url);
+    state.uploadedImages.forEach(img => downloadImage(img.dataUrl, img.name));
+    log('已自动保存生成结果到下载文件夹', 'success');
+    showToast('已保存：效果图 + 提示词 + 原图');
+}
+
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        autoSaveOutput();
+    }
+});
+
+// ============================================================
+// Initialize
+// ============================================================
+async function init() {
+    await initDB();
+    await loadHistory();
+    initCompareSlider();
+    log('系统初始化完成', 'success');
+    log('💡 提示：按 Ctrl+S 可快速保存当前生成结果', 'info');
+    log('🌟 推荐：选择「Tabbit AI」模型获得最佳生成效果', 'info');
+
+    if (window.location.protocol === 'file:') {
+        log('⚠️ 检测到从本地文件打开(file://)，可能存在CORS限制', 'warn');
+        log(' 建议：使用 python road-effect-server.py 启动后访问 http://localhost:8899', 'warn');
+    } else {
+        log(`✅ 通过本地服务器运行 (${window.location.origin})，Tabbit AI 可用`, 'success');
+    }
+}
+
+init();
+
+    
+
